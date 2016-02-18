@@ -10,7 +10,7 @@ Virtual creatures move around their virtual world in a virtual competition of su
 - [x] The World Object
 - [x] This and its Scope
 - [x] Animating Life
-- [ ] It Moves
+- [x] It Moves
 - [ ] More Life Forms
 - [ ] A More Lifelike Simulation
 - [ ] Action Handlers
