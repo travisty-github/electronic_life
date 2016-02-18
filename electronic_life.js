@@ -148,6 +148,19 @@ World.prototype.letAct = function(critter, vector) {
     }
   }
 };
+// Check the destination that the critter is moving to is valid.
+World.prototype.checkDestination = function(action, vector) {
+  if (directions.hasOwnProperty(action.direction)) {
+    var dest = vector.plus(directions[action.direction]);
+    if (this.grid.isInside(dest)) {
+      return dest;
+    } else {
+      console.log("World.checkDestination(): Destination outside grid.");
+      return;
+    }
+  }
+  console.log("World.checkDestination(): Invalid direction.");
+};
 
 // Wall object. Given it's a wall, it doesn't do anything but sit there.
 function Wall(){}
