@@ -95,3 +95,23 @@ function World(map, legend) {
                elementFromChar(legend, line[x]));
   });
 }
+
+// Convert from an elememnt back to a character.
+function charFromElement(element) {
+  if (element === null)
+    return " ";
+  else
+    return element.originChar;
+}
+// Convert the grid into the visual string representation of the world.
+World.prototype.toString = function() {
+  var output = "";
+  for (var y = 0; y < this.grid.height; y++) {
+    for (var x = 0; x < this.grid.width; x++) {
+      var element = this.grid.get(new Vector(x, y));
+      output += charFromElement(element);
+    }
+    output += "\n";
+  }
+  return output;
+};
