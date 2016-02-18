@@ -11,7 +11,7 @@ var plan = ["############################",
             "#    #                     #",
             "############################"];
 
-// Type to represent a particular point in the world.
+// Object to represent a particular point in the world.
 function Vector(x, y) {
   this.x = x;
   this.y = y;
