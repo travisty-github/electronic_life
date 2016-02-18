@@ -3,7 +3,6 @@
 Virtual creatures move around their virtual world in a virtual competition of survival!
 
 **TODO**
-
 - [x] Definition
 - [ ] Representing Space
 - [ ] A Critter's Programming Interface
