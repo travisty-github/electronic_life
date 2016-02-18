@@ -57,3 +57,18 @@ var directions = {
 function randomElement(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
+// Put all direction names into an array. Cannot use Object.keys() as there are no
+// guarantees on the order of the properties being returned (and neither can it
+// sorted alphabetically afterwards).
+var directionNames = "n ne e se s sw w nw".split(" ");
+// Define a bouncing critter object.
+function BouncingCritter() {
+  this.direction = randomElement(directionNames);
+}
+// Find an empty space to move to.
+BouncingCritter.prototype.act = function(view) {
+  if (view.look(this.direction) != " ")
+  // The "s" is to prevent a null return if the critter is trapped.
+  this.direction = view.find(" ") || "s";
+  return {type: "move", direction: this.direction};
+};
