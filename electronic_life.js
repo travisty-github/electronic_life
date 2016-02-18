@@ -52,3 +52,8 @@ var directions = {
   "w":  new Vector(-1,  0),
   "nw": new Vector(-1, -1)
 };
+
+// Get a random element from an array.
+function randomElement(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
