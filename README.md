@@ -7,8 +7,8 @@ Virtual creatures move around their virtual world in a virtual competition of su
 - [x] Definition
 - [x] Representing Space
 - [x] A Critter's Programming Interface
-- [ ] The World Object
-- [ ] This and its Scope
+- [x] The World Object
+- [x] This and its Scope
 - [ ] Animating Life
 - [ ] It Moves
 - [ ] More Life Forms
