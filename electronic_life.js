@@ -30,7 +30,7 @@ function Grid(width, height) {
 // Validate that the specified vector is within the world grid.
 Grid.prototype.isInside = function(vector) {
   return vector.x >= 0 && vector.x < this.width &&
-         vector.y >= 0 && vecotr.y < this.height;
+         vector.y >= 0 && vector.y < this.height;
 };
 // Return the grid item at the specified vector location.
 Grid.prototype.get = function(vector) {
