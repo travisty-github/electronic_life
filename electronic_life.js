@@ -274,3 +274,19 @@ actionTypes.reproduce = function(critter, vector, action) {
   this.grid.set(dest, baby);
   return true;
 };
+
+// Plant critter.
+// Start with a random energy level between 3 and 7.
+// Will grow in surrounding areas and reproduce if there is empty space nearby.
+function Plant() {
+  this.energy = 3 + Math.random() * 4;
+}
+Plant.prototype.act = function(view) {
+  if (this.energy > 15) {
+    var space = view.find(" ");
+    if (space)
+      return {type: "reproduce", direction: space};
+  }
+  if (this.energy < 20)
+    return {type: "grow"};
+};
