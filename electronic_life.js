@@ -115,3 +115,6 @@ World.prototype.toString = function() {
   }
   return output;
 };
+
+// Wall object. Given it's a wall, it doesn't do anything but sit there.
+function Wall(){}
