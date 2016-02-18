@@ -40,3 +40,15 @@ Grid.prototype.get = function(vector) {
 Grid.prototype.set = function(vector, value) {
   this.space[vector.x + this.width * vector.y] = value;
 };
+
+// Define compass directions in terms of a Vector.
+var directions = {
+  "n":  new Vector( 0, -1),
+  "ne": new Vector( 1, -1),
+  "e":  new Vector( 1,  0),
+  "se": new Vector( 1,  1),
+  "s":  new Vector( 0,  1),
+  "sw": new Vector(-1,  1),
+  "w":  new Vector(-1,  0),
+  "nw": new Vector(-1, -1)
+};
