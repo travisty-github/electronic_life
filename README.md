@@ -4,7 +4,7 @@ Virtual creatures move around their virtual world in a virtual competition of su
 
 **TODO**
 
-- [ ] Definition
+- [x] Definition
 - [ ] Representing Space
 - [ ] A Critter's Programming Interface
 - [ ] The World Object
