@@ -126,6 +126,17 @@ World.prototype.toString = function() {
   }
   return output;
 };
+// Give each critter a turn to act. Keep track of each critter that has had a
+// turn so we don't move it twice (it may move into a grid spot we check later.)
+World.prototype.turn = function() {
+  var acted = [];
+  this.grid.forEach(function(critter, vector) {
+    if (critter.act && acted.indexOf(critter) === -1) {
+      acted.push(critter);
+      this.letAct(critter, vector);
+    }
+  }, this);
+};
 
 // Wall object. Given it's a wall, it doesn't do anything but sit there.
 function Wall(){}
