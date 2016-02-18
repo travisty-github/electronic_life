@@ -11,7 +11,7 @@ Virtual creatures move around their virtual world in a virtual competition of su
 - [x] This and its Scope
 - [x] Animating Life
 - [x] It Moves
-- [ ] More Life Forms
+- [x] More Life Forms
 - [ ] A More Lifelike Simulation
 - [ ] Action Handlers
 - [ ] Populating the New World

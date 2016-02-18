@@ -194,3 +194,25 @@ View.prototype.find = function(ch) {
 
 // Wall object. Given it's a wall, it doesn't do anything but sit there.
 function Wall(){}
+
+// Get a relative direction.
+// dir: starting direction, e.g. "se"
+// n: 45 degree increments. e.g. -2 is -90 degrees
+function dirPlus(dir, n) {
+  var index = directionNames.indexOf(dir);
+  return directionNames[(index + n + 8) % 8];
+}
+// Define wall follower critter
+function WallFollower() {
+  this.dir = "s";
+}
+WallFollower.prototype.act = function(view) {
+  var start = this.dir;
+  if (view.look(dirPlus(this.dir, -3)) != " ")
+    start = this.dir = dirPlus(this.dir, -2);
+  while (view.look(this.dir) != " ") {
+    this.dir = dirPlus(this.dir, 1);
+    if (this.dir == start) break;
+  }
+  return {type: "move", direction: this.dir};
+};
