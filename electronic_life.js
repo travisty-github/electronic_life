@@ -162,5 +162,35 @@ World.prototype.checkDestination = function(action, vector) {
   console.log("World.checkDestination(): Invalid direction.");
 };
 
+// The View object allows the critter to look around the world.
+function View(world, vector) {
+  this.world = world;
+  this.vector = vector;
+}
+// Look in the specified direction. If the destination is outside the grid,
+// a wall is returned.
+View.prototype.look = function(dir) {
+  var target = this.vector.plus(directions[dir]);
+  if (this.world.grid.isInside(target))
+    return charFromElement(this.world.grid.get(target));
+  else
+    return "#";
+};
+// Find characters in surrounding directions.
+View.prototype.findAll = function(ch) {
+  var found = [];
+  for (var dir in directions)
+    if (this.look(dir) == ch)
+      found.push(dir);
+  return found;
+};
+// Return a random element from the matched character surrounding the critter.
+// If no matching characters then return null.
+View.prototype.find = function(ch) {
+  var found = this.findAll(ch);
+  if (found.length === 0) return null;
+  return randomElement(found);
+};
+
 // Wall object. Given it's a wall, it doesn't do anything but sit there.
 function Wall(){}

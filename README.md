@@ -9,7 +9,7 @@ Virtual creatures move around their virtual world in a virtual competition of su
 - [x] A Critter's Programming Interface
 - [x] The World Object
 - [x] This and its Scope
-- [ ] Animating Life
+- [x] Animating Life
 - [ ] It Moves
 - [ ] More Life Forms
 - [ ] A More Lifelike Simulation
