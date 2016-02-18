@@ -12,8 +12,8 @@ Virtual creatures move around their virtual world in a virtual competition of su
 - [x] Animating Life
 - [x] It Moves
 - [x] More Life Forms
-- [ ] A More Lifelike Simulation
-- [ ] Action Handlers
+- [x] A More Lifelike Simulation
+- [x] Action Handlers
 - [ ] Populating the New World
 - [ ] Bringing it to Life
 - [ ] Artificial Stupidity
