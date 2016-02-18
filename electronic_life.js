@@ -137,6 +137,17 @@ World.prototype.turn = function() {
     }
   }, this);
 };
+// Let the critter act. The argument vector is the location of the critter.
+World.prototype.letAct = function(critter, vector) {
+  var action = critter.act(new View(this, vector));
+  if (action && action.type == "move") {
+    var dest = this.checkDestination(action, vector);
+    if (dest && this.grid.get(dest) === null) {
+      this.grid.set(vector, null);
+      this.grid.set(dest, critter);
+    }
+  }
+};
 
 // Wall object. Given it's a wall, it doesn't do anything but sit there.
 function Wall(){}
