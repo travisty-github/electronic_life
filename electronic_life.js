@@ -346,6 +346,10 @@ $(document).ready(function() {
       $(this).html("Start");
     }
   });
+
+  $("#reset_btn").click(function() {
+    world = new LifelikeWorld(plan, legend);
+  });
 });
 
 function stepWorld() {
