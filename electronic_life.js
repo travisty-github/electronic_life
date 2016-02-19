@@ -1,15 +1,16 @@
 var plan = ["############################",
-            "#      #    #      o      ##",
+            "#      #    #      o   *  ##",
             "#                          #",
-            "#          #####           #",
-            "##         #   #    ##     #",
+            "#    *     #####           #",
+            "##         # * #    ##     #",
             "###           ##     #     #",
             "#           ###      #     #",
             "#   ####                   #",
-            "#   ##       o             #",
+            "#   ##       o       *     #",
             "# o  #         o       ### #",
-            "#    #                     #",
+            "#    #  *            *     #",
             "############################"];
+
 
 // Object to represent a particular point in the world.
 function Vector(x, y) {
@@ -123,6 +124,25 @@ World.prototype.toString = function() {
       output += charFromElement(element);
     }
     output += "\n";
+  }
+  return output;
+};
+// Convert the grid into HTML compatible representation. This involves newlines
+// as <br> and spaces as &nbsp.
+World.prototype.toHTML = function() {
+  var output = "";
+  var char = "";
+  for (var y = 0; y < this.grid.height; y++) {
+    for (var x = 0; x < this.grid.width; x++) {
+      var element = this.grid.get(new Vector(x, y));
+      char = charFromElement(element);
+      if (char === " ") {
+        output += "&nbsp";
+      } else {
+        output += char;
+      }
+    }
+    output += "<br>";
   }
   return output;
 };
@@ -280,6 +300,7 @@ actionTypes.reproduce = function(critter, vector, action) {
 // Will grow in surrounding areas and reproduce if there is empty space nearby.
 function Plant() {
   this.energy = 3 + Math.random() * 4;
+  this.originChar = "*";
 }
 Plant.prototype.act = function(view) {
   if (this.energy > 15) {
@@ -295,6 +316,7 @@ Plant.prototype.act = function(view) {
 // Roams the world and eats plants that it finds.
 function PlantEater() {
   this.energy = 20;
+  this.originChar = "o";
 }
 PlantEater.prototype.act = function(view) {
   var space = view.find(" ");
@@ -306,3 +328,27 @@ PlantEater.prototype.act = function(view) {
   if (space)
     return {type: "move", direction: space};
 };
+
+var legend = {"o": PlantEater,
+              "*": Plant,
+              "#": Wall};
+
+var interval;
+var world = new LifelikeWorld(plan, legend);
+
+$(document).ready(function() {
+  $("#start_stop_btn").click(function() {
+    if($(this).html() === "Start") {
+      interval = setInterval(stepWorld, 1000);
+      $(this).html("Stop");
+    } else {
+      clearInterval(interval);
+      $(this).html("Start");
+    }
+  });
+});
+
+function stepWorld() {
+    world.turn();
+    $("#world").html(world.toHTML());
+}
