@@ -73,6 +73,20 @@ function randomElement(array) {
 // guarantees on the order of the properties being returned (and neither can it
 // sorted alphabetically afterwards).
 var directionNames = "n ne e se s sw w nw".split(" ");
+
+// Return the opposite direction to the argument. E.g. "s" returns "n".
+function oppositeDirection(direction) {
+  var index = directionNames.indexOf(direction);
+  if (index < 1) {
+    console.log("oppositeDirection(): Invalid direction.");
+    return;
+  }
+  index += 4;
+  if (index > directionNames.length - 1) {
+    index -= 8;
+  }
+}
+
 // Define a bouncing critter object.
 function BouncingCritter() {
   this.direction = randomElement(directionNames);
@@ -329,7 +343,66 @@ PlantEater.prototype.act = function(view) {
     return {type: "move", direction: space};
 };
 
-var legend = {"o": PlantEater,
+// A slightly more intelligent plant eater.
+// Tries to avoid previous four locations. Reproduces at higher energy levels.
+function LessStupidPlantEater() {
+  this.energy = 20;
+  this.originChar = "o";
+  this.previousLocations = [new Vector(0, 0)];
+  PREVIOUS_LOCATION_HISTORY = 4;
+}
+LessStupidPlantEater.prototype.act = function(view) {
+  var space = view.find(" ");
+  if (this.energy > 200 && space)
+    return {type: "reproduce", direction: space};
+  var plant = view.find("*");
+  if (plant)
+    return {type: "eat", direction: plant};
+  if (space) {
+    // Check if we can move to a new location without backtracking.
+    if (this.canMoveToNewLocation(view)) {
+      // Find a new location to move to that we haven't been to recently.
+      //  This is inefficient - should filter locations first.
+      while (this.backtracking(space)) {
+        space = view.find(" ");
+      }
+    }
+    this.addLocation(space);
+    return {type: "move", direction: space};
+  }
+};
+// Check whether moving in the given direction will go to a previous location.
+LessStupidPlantEater.prototype.backtracking = function(direction) {
+    var newLocation = this.newLocation(direction);
+    this.previousLocations.forEach(function(location){
+    if (location.x === newLocation.x && location.y === newLocation.y) {
+      return true;
+    }
+  });
+  return false;
+};
+// Add a location to the location history
+LessStupidPlantEater.prototype.addLocation = function(direction) {
+    // Get most recent location.
+    this.previousLocations.push(this.newLocation(direction));
+    while (this.previousLocations.length > PREVIOUS_LOCATION_HISTORY) {
+      this.previousLocations.shift();
+    }
+};
+// Check whether it is possible to move to a new location that is not backtracking
+LessStupidPlantEater.prototype.canMoveToNewLocation = function(view) {
+  view.findAll(" ").forEach(function(direction){
+    if (!this.backtracking(direction)) return true;
+  }, this);
+  return false;
+};
+// Take a direction and return the resulting vector location.
+LessStupidPlantEater.prototype.newLocation = function(direction) {
+  var previousLocation = this.previousLocations[this.previousLocations.length - 1];
+  return previousLocation.plus(directions[direction]);
+};
+
+var legend = {"o": LessStupidPlantEater,
               "*": Plant,
               "#": Wall};
 
