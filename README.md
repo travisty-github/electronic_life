@@ -15,7 +15,7 @@ Virtual creatures move around their virtual world in a virtual competition of su
 - [x] A More Lifelike Simulation
 - [x] Action Handlers
 - [x] Populating the New World
-- [ ] Bringing it to Life
+- [x] Bringing it to Life
 - [ ] Artificial Stupidity
 - [ ] Predators
 
