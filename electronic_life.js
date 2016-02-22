@@ -69,9 +69,29 @@ var directions = {
   "nw": new Vector(-1, -1)
 };
 
-// Get a random element from an array.
-function randomElement(array) {
-  return array[Math.floor(Math.random() * array.length)];
+// Get a random Vector element from an array. Take an optional array of elements
+// to exclude if possible.
+function randomElement(array, exclude) {
+  var finalArray = [];
+  // If only one argument can select from any element.
+  if (arguments.length <= 1) {
+    finalArray = array[Math.floor(Math.random() * array.length)];
+  } else {
+    // Exclude elements to select from using exclude array.
+    var excludedArray = array.forEach(function(elementToCheck) {
+      var match = false;
+      exclude.forEach(function(elementToExclude) {
+        if (elementToCheck.equals(elementToExclude)) match = true;
+      });
+      // If no matches then append vector to array
+      if (!match) finalArray.push(elementToCheck);
+    });
+    // If everything is excluded then choose any value from array argument.
+    if (finalArray.length === 0) {
+      finalArray = array[Math.floor(Math.random() * array.length)];
+    }
+  }
+  return finalArray;
 }
 // Put all direction names into an array. Cannot use Object.keys() as there are no
 // guarantees on the order of the properties being returned (and neither can it
