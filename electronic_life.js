@@ -27,7 +27,7 @@ Vector.prototype.equals = function(other) {
 };
 // Return difference of two Vectors
 Vector.prototype.minus = function(other) {
-  return (this.x - other.x, this.y - other.y);
+  return new Vector(this.x - other.x, this.y - other.y);
 };
 
 // Object to represent world grid.
