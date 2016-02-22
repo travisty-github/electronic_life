@@ -16,7 +16,7 @@ Virtual creatures move around their virtual world in a virtual competition of su
 - [x] Action Handlers
 - [x] Populating the New World
 - [x] Bringing it to Life
-- [ ] Artificial Stupidity
+- [x] Artificial Stupidity
 - [ ] Predators
 
 This program was written as a project from Chapter 7 of the excellent [Eloquent Javascript](http://eloquentjavascript.net/07_elife.html)
