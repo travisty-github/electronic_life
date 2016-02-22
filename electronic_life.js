@@ -61,6 +61,14 @@ Grid.prototype.forEach = function(f, context) {
   }
 };
 
+function relativeVectors(array) {
+  var currentPosition = array[array.length - 1];
+  return array.map(function(currentValue) {
+    console.log(currentValue.minus(currentPosition));
+    return currentValue.minus(currentPosition);
+  }, this);
+}
+
 // Define compass directions in terms of a Vector.
 var directions = {
   "n":  new Vector( 0, -1),
@@ -79,23 +87,25 @@ function randomElement(array, exclude) {
   var finalArray = [];
   // If only one argument can select from any element.
   if (arguments.length <= 1) {
-    finalArray = array[Math.floor(Math.random() * array.length)];
+    finalArray = array;
   } else {
-    // Exclude elements to select from using exclude array.
-    var excludedArray = array.forEach(function(elementToCheck) {
+    // Exclude elements to select from using exclude function argument.
+    array.forEach(function(elementToCheck) {
       var match = false;
       exclude.forEach(function(elementToExclude) {
-        if (elementToCheck.equals(elementToExclude)) match = true;
-      });
+        if (directions[elementToCheck].equals(elementToExclude)) {
+          match = true;
+        }
+      }, this);
       // If no matches then append vector to array
       if (!match) finalArray.push(elementToCheck);
-    });
+    }, this);
     // If everything is excluded then choose any value from array argument.
     if (finalArray.length === 0) {
-      finalArray = array[Math.floor(Math.random() * array.length)];
+      finalArray = array;
     }
   }
-  return finalArray;
+  return finalArray[Math.floor(Math.random() * array.length)];
 }
 // Put all direction names into an array. Cannot use Object.keys() as there are no
 // guarantees on the order of the properties being returned (and neither can it
@@ -247,11 +257,15 @@ View.prototype.findAll = function(ch) {
   return found;
 };
 // Return a random element from the matched character surrounding the critter.
+// Take an optional argument of an array of positions to exclude.
 // If no matching characters then return null.
-View.prototype.find = function(ch) {
+View.prototype.find = function(ch, excludeArray) {
   var found = this.findAll(ch);
   if (found.length === 0) return null;
-  return randomElement(found);
+  if (arguments.length <= 1) {
+    return randomElement(found);
+  }
+  return randomElement(found, relativeVectors(excludeArray));
 };
 
 // Wall object. Given it's a wall, it doesn't do anything but sit there.
@@ -380,34 +394,16 @@ function LessStupidPlantEater() {
   PREVIOUS_LOCATION_HISTORY = 4;
 }
 LessStupidPlantEater.prototype.act = function(view) {
-  var space = view.find(" ");
+  var space = view.find(" ", this.previousLocations);
   if (this.energy > 200 && space)
     return {type: "reproduce", direction: space};
   var plant = view.find("*");
   if (plant)
     return {type: "eat", direction: plant};
   if (space) {
-    // Check if we can move to a new location without backtracking.
-    if (this.canMoveToNewLocation(view)) {
-      // Find a new location to move to that we haven't been to recently.
-      //  This is inefficient - should filter locations first.
-      while (this.backtracking(space)) {
-        space = view.find(" ");
-      }
-    }
     this.addLocation(space);
     return {type: "move", direction: space};
   }
-};
-// Check whether moving in the given direction will go to a previous location.
-LessStupidPlantEater.prototype.backtracking = function(direction) {
-    var newLocation = this.newLocation(direction);
-    this.previousLocations.forEach(function(location){
-    if (location.x === newLocation.x && location.y === newLocation.y) {
-      return true;
-    }
-  });
-  return false;
 };
 // Add a location to the location history
 LessStupidPlantEater.prototype.addLocation = function(direction) {
@@ -416,13 +412,6 @@ LessStupidPlantEater.prototype.addLocation = function(direction) {
     while (this.previousLocations.length > PREVIOUS_LOCATION_HISTORY) {
       this.previousLocations.shift();
     }
-};
-// Check whether it is possible to move to a new location that is not backtracking
-LessStupidPlantEater.prototype.canMoveToNewLocation = function(view) {
-  view.findAll(" ").forEach(function(direction){
-    if (!this.backtracking(direction)) return true;
-  }, this);
-  return false;
 };
 // Take a direction and return the resulting vector location.
 LessStupidPlantEater.prototype.newLocation = function(direction) {
