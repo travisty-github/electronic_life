@@ -64,7 +64,6 @@ Grid.prototype.forEach = function(f, context) {
 function relativeVectors(array) {
   var currentPosition = array[array.length - 1];
   return array.map(function(currentValue) {
-    console.log(currentValue.minus(currentPosition));
     return currentValue.minus(currentPosition);
   }, this);
 }
