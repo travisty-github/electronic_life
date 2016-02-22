@@ -21,6 +21,10 @@ function Vector(x, y) {
 Vector.prototype.plus = function(other) {
   return new Vector(this.x + other.x, this.y + other.y);
 };
+// Check whether vectors equal
+Vector.prototype.equals = function(other) {
+  return (this.x === other.x && this.y === other.y);
+};
 
 // Object to represent world grid.
 function Grid(width, height) {
