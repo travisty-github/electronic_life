@@ -104,7 +104,7 @@ function randomElement(array, exclude) {
       finalArray = array;
     }
   }
-  return finalArray[Math.floor(Math.random() * array.length)];
+  return finalArray[Math.floor(Math.random() * finalArray.length)];
 }
 // Put all direction names into an array. Cannot use Object.keys() as there are no
 // guarantees on the order of the properties being returned (and neither can it
